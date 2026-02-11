@@ -23,9 +23,9 @@
 
 ## 📖 项目简介
 
-**Smart Fund Assistant Pro** 是一个深度实践 Google DeepMind **HelloAgents Framework** 的参考级应用。
+**Smart Fund Assistant Pro** 是一个深度实**HelloAgents Framework** 的参考级应用。
 
-我们利用 HelloAgents 提供的多种 Agent 编排模式（ReAct, Plan-and-Solve, Reflection 等），构建了一个由 **8 个专业虚拟专家** 组成的金融投顾团队。该项目不仅展示了 LLM 在垂直领域的应用潜力，更是一套可用于生产环境的现代全栈解决方案。
+利用 HelloAgents 提供的多种 Agent 编排模式（ReAct, Plan-and-Solve, Reflection 等），构建了一个由 **8 个专业虚拟专家** 组成的金融投顾团队。该项目不仅展示了 LLM 在垂直领域的应用潜力，更是一套可用于生产环境的现代全栈解决方案。
 
 ---
 
