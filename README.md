@@ -1,20 +1,20 @@
 <div align="center">
 
 # 💰 Smart Fund Assistant Pro
-### 智能基金投资助手 —— 您的私人 AI 投顾天团
+### 基于 HelloAgents 的新一代智能基金投顾系统
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Framework](https://img.shields.io/badge/Powered_by-HelloAgents-orange.svg?style=flat-square)](https://github.com/GoogleDeepMind/HelloAgents)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
-[![HelloAgents](https://img.shields.io/badge/AI_Framework-HelloAgents-orange.svg?style=flat-square)](https://github.com/GoogleDeepMind/HelloAgents)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 
-[功能演示](#-核心功能) • [Agent架构](#-ai-专家团队架构) • [快速开始](#-快速开始) • [部署指南](#-部署指南) • [技术栈](#-技术栈)
+[项目简介](#-项目简介) • [核心架构](#-核心架构) • [技术全景](#%EF%B8%8F-技术全景) • [项目结构](#-项目结构) • [快速开始](#-快速开始)
 
 ---
 
 <p align="center">
-  <strong>8 位 AI 专家联手 ｜ 全感官交互看板 ｜ 实时市场洞察 ｜ RAG 知识库导航</strong>
+  <strong>8 位专业 AI 智能体协同工作 ｜ 深度集成 HelloAgents 框架 ｜ 企业级 RAG 知识库</strong>
 </p>
 
 </div>
@@ -23,201 +23,153 @@
 
 ## 📖 项目简介
 
-**Smart Fund Assistant Pro** 是基于 Google DeepMind **HelloAgents Framework** 构建的下一代智能投顾系统。
+**Smart Fund Assistant Pro** 是一个深度实践 Google DeepMind **HelloAgents Framework** 的参考级应用。
 
-它不仅仅是一个聊天机器人，而是一个由 **8 个专业智能体 (Agents)** 组成的虚拟金融专家团队。通过 **ReAct**、**Plan-and-Solve**、**Reflection** 和 **Chain-of-Thought** 等先进 AI 范式，它们协同工作，为您提供从宏观策略到微观量化的全方位投资服务。
-
-结合 **Glassmorphism (玻璃拟态)** 设计理念的现代化前端，为您带来沉浸式的资产管理体验。
+我们利用 HelloAgents 提供的多种 Agent 编排模式（ReAct, Plan-and-Solve, Reflection 等），构建了一个由 **8 个专业虚拟专家** 组成的金融投顾团队。该项目不仅展示了 LLM 在垂直领域的应用潜力，更是一套可用于生产环境的现代全栈解决方案。
 
 ---
 
-## 🧠 AI 专家团队架构
+## 🧠 核心架构 (Powered by HelloAgents)
 
-本项目展示了 HelloAgents 框架的强大能力，集成了多种 Agent 模式。
+本系统完全基于 **HelloAgents Framework** 构建，通过 orchestrator (协调者) 模式调度不同的专业 Agent：
 
-### 系统架构图
-
-```mermaid
-graph TD
-    User([👤 用户]) <--> |WebSocket/HTTP| API_Gateway[FastAPI 网关]
-    
-    subgraph "🤖 AI Agent Team (HelloAgents Framework)"
-        API_Gateway --> Coordinator[👩‍💼 总协调员\n(ReActAgent)]
-        
-        Coordinator --> |任务分发| Strategist[🎩 首席策略师\n(CoT + Persona)]
-        Coordinator --> |任务分发| Analyst[📈 技术分析师\n(Reflection)]
-        Coordinator --> |任务分发| Quant[🧮 量化专家\n(Code Interpreter)]
-        Coordinator --> |任务分发| Intelligence[🕵️ 市场侦察兵\n(GraphRAG)]
-        Coordinator --> |任务分发| Advisor[📝 投资顾问\n(PlanAndSolve)]
-        Coordinator --> |任务分发| Shadow[👥 影子分析师\n(ReAct)]
-        Coordinator --> |任务分发| DailyReport[📅 日报专员\n(Simple)]
-    end
-    
-    subgraph "🧠 记忆与知识库"
-        VectorDB[(Qdrant 向量库)] <--> |RAG 检索| Intelligence
-        VectorDB <--> |研报查询| Analyst
-        SQLDB[(SQLite 业务库)] <--> |持仓数据| Coordinator
-    end
-    
-    subgraph "🔌 外部工具链"
-        Quant --> |Python 执行| CodeSandbox[代码沙箱]
-        Intelligence --> |搜索/新闻| WebSearch[联网搜索]
-        All_Agents --> |行情数据| MarketData[AkShare/TuShare]
-    end
-```
-
-### Agent 角色详情
-
-| 角色 | Agent 类型 | 核心能力 & 职责 |
+| Agent 角色 | 采用范式 (Paradigm) | 技术实现细节 |
 | :--- | :--- | :--- |
-| **👩‍💼 总协调员 (Coordinator)** | `ReActAgent` | **意图识别与任务分发**。作为用户的主入口，智能判断需求并调度相应的专家。 |
-| **🎩 首席策略师 (Strategist)** | `ReAct` + `CoT` + `Persona` | **宏观决策与资产配置**。采用思维链 (Chain-of-Thought) 进行深思熟虑，支持切换"激进/稳健/保守"人格。 |
-| **📈 技术分析师 (Analyst)** | `ReflectionAgent` | **K线与趋势分析**。具备"自我反思"能力，自我审查分析报告的准确性，拒绝幻觉。 |
-| **🧮 量化专家 (Quant)** | `SimpleAgent` + `CodeInterpreter` | **硬核数据计算**。内置 Python 代码解释器，实时编写代码计算夏普比率、最大回撤等复杂指标。 |
-| **🕵️ 市场侦察兵 (Intelligence)** | `ReAct` + `GraphRAG` | **情报搜集与关联分析**。利用知识图谱 (GraphRAG) 分析供应链与竞争关系，解读新闻影响。 |
-| **📝 投资顾问 (Advisor)** | `PlanAndSolveAgent` | **长周期规划**。擅长将复杂的理财目标（如"通过定投攒够首付"）拆解为可执行的分步计划。 |
-| **👥 影子分析师 (Shadow)** | `ReActAgent` | **社交投资跟踪**。分析"大V"或基金经理的持仓风格，进行 Brinson 归因分析与风格漂移检测。 |
-| **📅 日报专员 (DailyReport)** | `SimpleAgent` | **自动化汇报**。每日自动生成个性化的账户盈亏简报与市场复盘。 |
+| **👩‍💼 总协调员** | `ReActAgent` | 作为系统大脑，负责意图路由。基于 HelloAgents 的 `ToolRegistry` 动态加载工具，实现精准的任务分发。 |
+| **🎩 首席策略师** | `Chain-of-Thought` | 集成 `Persona` (人格) 模块，支持"激进/稳健"风格切换。利用 CoT 思维链推导宏观配置策略。 |
+| **📈 技术分析师** | `ReflectionAgent` | 引入**自我反思**机制。在生成市场分析报告后，会自动进行 Critic (审查) 循环，修正幻觉与逻辑漏洞。 |
+| **🧮 量化专家** | `CodeInterpreter` | 内置 Python 沙箱环境。不仅能聊天，更能实时编写并执行 Pandas/Numpy 代码，计算真实的夏普比率与 最大回撤。 |
+| **🕵️ 市场侦察兵** | `GraphRAG` | 结合知识图谱与搜索增强。自动构建"供应链-竞争对手"关系网，从新闻中挖掘深层影响。 |
+| **📝 投资顾问** | `PlanAndSolve` | 擅长长链条任务规划。将用户的模糊目标（如"3年存够首付"）拆解为多阶段的可执行理财计划。 |
 
 ---
 
-## ✨ 核心功能
+## 🛠️ 技术全景
 
-### 1. 💎 沉浸式投资看板
-*   **全览视图**: 3D 悬浮卡片展示总资产、日收益与持仓分布。
-*   **实时图表**: 集成 TradingView 轻量级图表，支持分钟级 K 线与交互式绘图。
-*   **暗黑模式**: 深度适配的玻璃拟态 UI，科技感十足。
+### 🐍 后端 (Backend) & AI
+*   **基础框架**: `FastAPI` (高性能异步 Web 框架)
+*   **AI 核心**: `HelloAgents Framework` (Agent 编排、记忆管理、工具调用)
+*   **大模型支持**: 兼容 OpenAI 接口协议 (DeepSeek-V3, Qwen2.5, GPT-4o)
+*   **向量检索**: `Qdrant` (本地/云端向量数据库，用于 RAG)
+*   **数据存储**: `SQLite` (轻量级业务数据), `Redis` (可选，用于分布式缓存)
+*   **金融数据**: `AkShare` (开源财经数据源), `TuShare` (专业数据源)
 
-### 2. 💬 全感官智能对话
-*   **流式响应**: 像真人一样逐字输出，支持 Markdown 表格、数学公式渲染。
-*   **动态组件**: AI 可以在对话中直接插入动态图表（如持仓饼图、收益曲线），所见即所得。
-*   **多模态输入**: (规划中) 支持上传财报截图进行分析。
-
-### 3. 🛡️ 企业级数据与风控
-*   **实时行情**: 对接 AkShare、TuShare 等数据源，覆盖 A 股、港股、ETF 与宏观数据。
-*   **RAG 知识库**: 内置向量数据库 (Qdrant)，自动索引本地 PDF 研报，回答有理有据，来源可溯。
-*   **隐私安全**: 核心数据本地存储 (SQLite)，支持 JWT 身份认证。
+### ⚛️ 前端 (Frontend)
+*   **核心框架**: `React 19` + `TypeScript` + `Vite`
+*   **状态管理**: `Zustand` (轻量级全局状态), `React Query` (服务端状态同步)
+*   **UI 系统**: `TailwindCSS` (原子化 CSS), `Framer Motion` (专业级动效)
+*   **数据可视化**: `Lightweight Charts` (TradingView 同款 K 线), `Recharts` (统计图表)
+*   **网络通信**: `Axios` (HTTP), `WebSocket` (实时流式对话)
 
 ---
 
-## 🛠️ 技术栈
-
-### 前端 (Frontend)
-*   **框架**: React 19, TypeScript, Vite
-*   **UI 库**: TailwindCSS, Framer Motion (动画), Lucide React (图标)
-*   **数据流**: Zustand, React Query
-*   **可视化**: Lightweight Charts, Recharts
-
-### 后端 (Backend)
-*   **核心框架**: FastAPI (Python 3.10+)
-*   **AI 引擎**: **HelloAgents Framework** (Agent 编排与通信)
-*   **LLM 支持**: DeepSeek-V3, Qwen2.5, OpenAI GPT-4o (兼容所有 OpenAI 格式接口)
-*   **数据库**: SQLite (业务数据), Qdrant (向量数据)
-*   **工具链**: AkShare (金融数据), PyPDF2 (文档解析)
-
-### 📂 项目目录结构
+## 📂 项目结构
 
 ```bash
 fund_assistant/
-├── agents/                 # 🤖 Agent 角色定义 (ReAct/PlanAndSolve/etc)
-├── api/                    # 🔌 FastAPI 路由接口
-├── data/                   # 💾 本地数据库 (SQLite + Qdrant)
-├── frontend-pro/           # ⚛️ React 前端项目源码
-│   ├── src/components/     # UI 组件
-│   └── src/pages/          # 页面视图
-├── hello_agents/           # 🧠 HelloAgents 框架核心
-├── knowledge/              # 📚 RAG 知识库文件 (PDF/MD)
-├── services/               # ⚙️ 业务逻辑层
-├── tools/                  # 🛠️ 工具函数 (行情/代码解释器)
-├── server.py               # 🚀 后端启动入口
-└── docker-compose.yml      # 🐳 Docker 编排文件
+├── agents/                     # 🤖 Agent 定义层 (HelloAgents 实现)
+│   ├── advisor.py              # 投资顾问 (PlanAndSolve 模式)
+│   ├── analyst.py              # 技术分析师 (Reflection 模式)
+│   ├── coordinator.py          # 总协调员 (ReAct 模式)
+│   ├── quant.py                # 量化专家 (代码解释器集成)
+│   ├── strategist.py           # 首席策略师 (CoT + Persona)
+│   └── ...
+│
+├── hello_agents/               # 🧠 HelloAgents 框架核心源码
+│   ├── core/                   # 核心基类 (Agent, LLM, Memory)
+│   ├── protocols/              # 通信协议 (A2A, MCP)
+│   └── memory/                 # 记忆与 RAG 实现
+│
+├── api/                        # 🔌 接口层 (FastAPI Routers)
+│   ├── chart_api.py            # 图表数据接口
+│   ├── portfolio_api.py        # 持仓管理接口
+│   └── ...
+│
+├── services/                   # ⚙️ 业务服务层
+│   ├── discovery_service.py    # 基金筛选与发现逻辑
+│   ├── investment_service.py   # 投资分析算法
+│   └── ...
+│
+├── tools/                      # 🛠️ 工具箱 (供 Agent 调用)
+│   ├── code_interpreter.py     # Python 代码执行沙箱
+│   ├── market_data.py          # 行情数据获取 (AkShare)
+│   └── fund_tools.py           # 基金基础信息查询
+│
+├── knowledge/                  # 📚 知识库 (RAG 数据源)
+│   └── *.md/*.pdf              # 放入此处的文档会被自动索引
+│
+├── data/                       # 💾 数据存储
+│   ├── fund_app.db             # SQLite 业务数据库
+│   └── qdrant_storage/         # 向量数据库文件
+│
+├── frontend-pro/               # ⚛️ 前端工程 (React)
+│   ├── src/
+│   │   ├── components/         # 业务组件 (Chat, Charts, Dashboard)
+│   │   ├── api/                # 前端 API 封装
+│   │   ├── store/              # Zustand 状态管理
+│   │   └── types/              # TypeScript 类型定义
+│   └── ...
+│
+├── server.py                   # 🚀 程序启动入口
+├── Dockerfile                  # 🐳 容器化构建文件
+└── requirements.txt            # Python 依赖清单
 ```
 
 ---
 
 ## 🚀 快速开始
 
-### 方法一：Docker 一键部署 (推荐) 🐳
-
-无需配置繁杂的 Python 环境，由 Docker 处理一切。
-
+### 1. 环境准备
 ```bash
-# 1. 克隆仓库
 git clone https://github.com/pukueh/fund-assistant.git
 cd fund-assistant
+```
 
-# 2. 配置环境变量
+### 2. 配置密钥
+复制配置文件并填入您的 LLM API Key (支持 DeepSeek, OpenAI 等)：
+```bash
 cp .env.example .env
-# 编辑 .env 填入您的 LLM_API_KEY
 vim .env
+```
+```env
+LLM_API_KEY=sk-xxxxxxxxxxxx
+LLM_BASE_URL=https://api.deepseek.com/v1
+```
 
-# 3. 启动服务
+### 3. 启动服务 (Docker 推荐)
+无需配置环境，一键拉起所有服务：
+```bash
 docker-compose up -d --build
 ```
+访问 `http://localhost:8080` 即可体验。
 
-访问浏览器：`http://localhost:8080` 即可开始对话！
+### 4. 本地开发模式
+如果是进行二次开发，建议手动启动：
 
-### 方法二：手动本地开发
-
-<details>
-<summary>点击展开详细步骤</summary>
-
-**1. 后端启动**
+**后端:**
 ```bash
-# 创建虚拟环境
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 安装依赖
 pip install -r requirements.txt
-
-# 启动服务
 python server.py
+# 服务运行在 :8080
 ```
 
-**2. 前端启动**
+**前端:**
 ```bash
 cd frontend-pro
 npm install
 npm run dev
+# 开发服务运行在 :3000
 ```
-</details>
 
 ---
 
-## 📦 生产环境部署 (Linux/宝塔)
+## 🤝 贡献指南
 
-针对 CentOS 7 / Ubuntu 等服务器的部署最佳实践：
+我们欢迎社区贡献！如果您想添加新的 Agent 角色或接入新的数据源：
+1. 在 `agents/` 目录下继承 `ReActAgent` 或 `SimpleAgent` 创建新角色。
+2. 在 `tools/` 下编写配套工具。
+3. 在 `agents/coordinator.py` 中注册新 Agent。
 
-1.  **准备环境**: 安装 Python 3.10+ 和 Node.js 18+。
-2.  **兼容性处理** (CentOS 7 特供):
-    ```bash
-    # 避免编译错误的二进制安装方式
-    pip install pandas==2.0.3 tiktoken curl_cffi==0.5.10 --only-binary :all:
-    pip install -r requirements.txt
-    ```
-3.  **构建前端**:
-    ```bash
-    cd frontend-pro
-    npm run build
-    # 产物在 frontend-pro/dist，后端 server.py 会自动托管此目录
-    ```
-4.  **后台运行**:
-    ```bash
-    nohup python server.py > server.log 2>&1 &
-    ```
-5.  **Nginx 反向代理**:
-    配置 `location /` 转发至 `http://127.0.0.1:8080`，并开启 WebSocket 支持 (Upgrade 头)。
+## 📄 许可证
 
----
-
-## 🤝 贡献与反馈
-
-欢迎提交 Issue 和 Pull Request！我们尤其欢迎以下方向的贡献：
-*   新增更多类型的 Agent 角色
-*   对接更多的金融数据源
-*   UI/UX 的持续优化
-
-## 📄 开源协议
-
-MIT License. Copyright (c) 2026
+MIT License. Copyright (c) 2026.
