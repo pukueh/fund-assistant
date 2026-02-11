@@ -6,10 +6,10 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![HelloAgents](https://img.shields.io/badge/AI_Framework-HelloAgents-orange.svg?style=flat-square)](https://github.com/GoogleDeepMind/HelloAgents)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
 
-[功能演示](#-核心功能) • [快速开始](#-快速开始) • [部署指南](#-部署指南) • [技术架构](#-技术架构) • [贡献](#-贡献)
+[功能演示](#-核心功能) • [Agent架构](#-ai-专家团队架构) • [快速开始](#-快速开始) • [部署指南](#-部署指南) • [技术栈](#-技术栈)
 
 ---
 
@@ -23,90 +23,108 @@
 
 ## 📖 项目简介
 
-**Smart Fund Assistant Pro** 不仅仅是一个基金数据查询工具，它重新定义了个人投资助理的形态。
+**Smart Fund Assistant Pro** 是基于 Google DeepMind **HelloAgents Framework** 构建的下一代智能投顾系统。
 
-我们利用 **HelloAgents Framework** 构建了一个由 **8 个专业智能体 (Agents)** 组成的虚拟投顾团队。无论您是想诊断持仓风险、寻找潜力板块，还是通过自然语言查询复杂的市场数据，这支 24/7 在线的 AI 团队都能为您提供基于实时数据与深度知识库的专业建议。
+它不仅仅是一个聊天机器人，而是一个由 **8 个专业智能体 (Agents)** 组成的虚拟金融专家团队。通过 **ReAct**、**Plan-and-Solve**、**Reflection** 和 **Chain-of-Thought** 等先进 AI 范式，它们协同工作，为您提供从宏观策略到微观量化的全方位投资服务。
 
 结合 **Glassmorphism (玻璃拟态)** 设计理念的现代化前端，为您带来沉浸式的资产管理体验。
 
 ---
 
+## 🧠 AI 专家团队架构
+
+本项目展示了 HelloAgents 框架的强大能力，集成了多种 Agent 模式：
+
+| 角色 | Agent 类型 | 核心能力 & 职责 |
+| :--- | :--- | :--- |
+| **👩‍💼 总协调员 (Coordinator)** | `ReActAgent` | **意图识别与任务分发**。作为用户的主入口，智能判断需求并调度相应的专家。 |
+| **🎩 首席策略师 (Strategist)** | `ReAct` + `CoT` + `Persona` | **宏观决策与资产配置**。采用思维链 (Chain-of-Thought) 进行深思熟虑，支持切换"激进/稳健/保守"人格。 |
+| **📈 技术分析师 (Analyst)** | `ReflectionAgent` | **K线与趋势分析**。具备"自我反思"能力，自我审查分析报告的准确性，拒绝幻觉。 |
+| **🧮 量化专家 (Quant)** | `SimpleAgent` + `CodeInterpreter` | **硬核数据计算**。内置 Python 代码解释器，实时编写代码计算夏普比率、最大回撤等复杂指标。 |
+| **🕵️ 市场侦察兵 (Intelligence)** | `ReAct` + `GraphRAG` | **情报搜集与关联分析**。利用知识图谱 (GraphRAG) 分析供应链与竞争关系，解读新闻影响。 |
+| **📝 投资顾问 (Advisor)** | `PlanAndSolveAgent` | **长周期规划**。擅长将复杂的理财目标（如"通过定投攒够首付"）拆解为可执行的分步计划。 |
+| **👥 影子分析师 (Shadow)** | `ReActAgent` | **社交投资跟踪**。分析"大V"或基金经理的持仓风格，进行 Brinson 归因分析与风格漂移检测。 |
+| **📅 日报专员 (DailyReport)** | `SimpleAgent` | **自动化汇报**。每日自动生成个性化的账户盈亏简报与市场复盘。 |
+
+---
+
 ## ✨ 核心功能
 
-### 🤖 八合一专家团队 (Agent Team)
-*   **👩‍💼 首席理财顾问 (Chief Advisor)**: 统筹全局，协调各专家为您提供综合建议。
-*   **📊 数据分析师 (Data Analyst)**: 实时拉取市场行情、基金估值与经理排名。
-*   **🛡️ 风控专家 (Risk Control)**: 深度扫描持仓风险，预警高回撤与相关性陷阱。
-*   **🌍 宏观策略师 (Macro Strategist)**: 结合新闻与宏观数据，研判市场大势。
-*   **📑 研报分析员 (Researcher)**: 基于 RAG 技术，快速提炼长篇研报核心观点。
-*   **...以及更多专业角色**
+### 1. 💎 沉浸式投资看板
+*   **全览视图**: 3D 悬浮卡片展示总资产、日收益与持仓分布。
+*   **实时图表**: 集成 TradingView 轻量级图表，支持分钟级 K 线与交互式绘图。
+*   **暗黑模式**: 深度适配的玻璃拟态 UI，科技感十足。
 
-### 💎 极致交互体验
-*   **全感官对话**: 支持流式输出、Markdown 渲染、动态图表插入。
-*   **实时看板**: 3D 悬浮组件展示今日收益、持仓分布与大盘走势。
-*   **智能图表**: 集成 TradingView 级 K 线与交互式饼图，数据一目了然。
+### 2. 💬 全感官智能对话
+*   **流式响应**: 像真人一样逐字输出，支持 Markdown 表格、数学公式渲染。
+*   **动态组件**: AI 可以在对话中直接插入动态图表（如持仓饼图、收益曲线），所见即所得。
+*   **多模态输入**: (规划中) 支持上传财报截图进行分析。
 
-### 🧠 企业级 AI 能力
-*   **RAG (检索增强生成)**: 自动索引本地 PDF/Markdown 知识库，回答有理有据。
-*   **工具链集成**: 内置 Python 代码解释器，可现场编写代码进行复杂数据回测。
+### 3. 🛡️ 企业级数据与风控
+*   **实时行情**: 对接 AkShare、TuShare 等数据源，覆盖 A 股、港股、ETF 与宏观数据。
+*   **RAG 知识库**: 内置向量数据库 (Qdrant)，自动索引本地 PDF 研报，回答有理有据，来源可溯。
+*   **隐私安全**: 核心数据本地存储 (SQLite)，支持 JWT 身份认证。
 
 ---
 
 ## 🛠️ 技术栈
 
-| 模块 | 技术选型 | 说明 |
-| :--- | :--- | :--- |
-| **前端** | **React 19** + **TypeScript** | 极致性能，Vite 构建 |
-| **UI/UX** | **TailwindCSS** + **Framer Motion** | 玻璃拟态设计，丝滑流畅的动画 |
-| **后端** | **FastAPI** + **HelloAgents** | 高性能异步框架，Agent 编排核心 |
-| **LLM** | **DeepSeek-V3** / **Qwen2.5** | 支持 OpenAI 兼容协议的所有大模型 |
-| **数据** | **SQLite** + **Qdrant** | 轻量级关系型数据库 + 向量检索引擎 |
-| **采集** | **AkShare** + **Crawler** | 覆盖 A 股、港股、ETF 及宏观数据 |
+### 前端 (Frontend)
+*   **框架**: React 19, TypeScript, Vite
+*   **UI 库**: TailwindCSS, Framer Motion (动画), Lucide React (图标)
+*   **数据流**: Zustand, React Query
+*   **可视化**: Lightweight Charts, Recharts
+
+### 后端 (Backend)
+*   **核心框架**: FastAPI (Python 3.10+)
+*   **AI 引擎**: **HelloAgents Framework** (Agent 编排与通信)
+*   **LLM 支持**: DeepSeek-V3, Qwen2.5, OpenAI GPT-4o (兼容所有 OpenAI 格式接口)
+*   **数据库**: SQLite (业务数据), Qdrant (向量数据)
+*   **工具链**: AkShare (金融数据), PyPDF2 (文档解析)
 
 ---
 
 ## 🚀 快速开始
 
-### 1. 克隆项目
-```bash
-git clone https://github.com/pukueh/ImagineHosting.git
-cd ImagineHosting
-```
+### 方法一：Docker 一键部署 (推荐) 🐳
 
-### 2. 配置环境
-复制配置文件模板并填入您的 API Key（支持 DeepSeek, OpenAI 等）：
+无需配置繁杂的 Python 环境，由 Docker 处理一切。
+
 ```bash
+# 1. 克隆仓库
+git clone https://github.com/pukueh/fund-assistant.git
+cd fund-assistant
+
+# 2. 配置环境变量
 cp .env.example .env
+# 编辑 .env 填入您的 LLM_API_KEY
 vim .env
-```
 
-```env
-# .env 示例
-LLM_API_KEY=sk-xxxxxxxxxxxxxxxx
-LLM_BASE_URL=https://api.deepseek.com/v1
-LLM_MODEL_ID=deepseek-chat
-```
-
-### 3. 一键启动 (Docker) 🐳 **推荐**
-无需配置复杂的 Python/Node 环境，一键拉起所有服务：
-```bash
+# 3. 启动服务
 docker-compose up -d --build
 ```
-访问：`http://localhost:8080`
 
-### 4. 手动启动 (开发模式)
+访问浏览器：`http://localhost:8080` 即可开始对话！
+
+### 方法二：手动本地开发
+
 <details>
-<summary>点击展开手动部署步骤</summary>
+<summary>点击展开详细步骤</summary>
 
-**后端:**
+**1. 后端启动**
 ```bash
+# 创建虚拟环境
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 安装依赖
 pip install -r requirements.txt
+
+# 启动服务
 python server.py
 ```
 
-**前端:**
+**2. 前端启动**
 ```bash
 cd frontend-pro
 npm install
@@ -116,44 +134,38 @@ npm run dev
 
 ---
 
-## 📦 部署指南 (Linux/宝塔)
+## 📦 生产环境部署 (Linux/宝塔)
 
-针对云服务器（如阿里云、腾讯云）的生产环境部署最佳实践：
+针对 CentOS 7 / Ubuntu 等服务器的部署最佳实践：
 
-1.  **上传代码**: 将项目打包上传至服务器 `/www/wwwroot/fund_assistant`。
-2.  **安装依赖**: 
-    *   CentOS 7 等老系统推荐使用二进制包安装依赖，避免编译失败：
-        ```bash
-        pip install pandas==2.0.3 tiktoken curl_cffi==0.5.10 --only-binary :all:
-        pip install -r requirements.txt
-        ```
-3.  **后台运行**:
+1.  **准备环境**: 安装 Python 3.10+ 和 Node.js 18+。
+2.  **兼容性处理** (CentOS 7 特供):
+    ```bash
+    # 避免编译错误的二进制安装方式
+    pip install pandas==2.0.3 tiktoken curl_cffi==0.5.10 --only-binary :all:
+    pip install -r requirements.txt
+    ```
+3.  **构建前端**:
+    ```bash
+    cd frontend-pro
+    npm run build
+    # 产物在 frontend-pro/dist，后端 server.py 会自动托管此目录
+    ```
+4.  **后台运行**:
     ```bash
     nohup python server.py > server.log 2>&1 &
     ```
-4.  **域名配置**:
-    *   在 Cloudflare 解析域名。
-    *   Nginx 配置 `location /` 反向代理至 `127.0.0.1:8080`。
-
-详细教程请参考 [DEPLOY_WITH_DOCKER.md](DEPLOY_WITH_DOCKER.md)。
+5.  **Nginx 反向代理**:
+    配置 `location /` 转发至 `http://127.0.0.1:8080`，并开启 WebSocket 支持 (Upgrade 头)。
 
 ---
 
-## 📸 预览
-*(此处建议稍后上传截图)*
+## 🤝 贡献与反馈
 
----
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
----
+欢迎提交 Issue 和 Pull Request！我们尤其欢迎以下方向的贡献：
+*   新增更多类型的 Agent 角色
+*   对接更多的金融数据源
+*   UI/UX 的持续优化
 
 ## 📄 开源协议
 
