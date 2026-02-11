@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  fund-assistant:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fund-assistant
+    restart: unless-stopped
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8080
+      - DEBUG=${DEBUG:-false}
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      # LLM Configuration
+      - LLM_MODEL_ID=${LLM_MODEL_ID}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      # Data Source
+      - MARKET_DATA_SOURCE=${MARKET_DATA_SOURCE:-auto}
+      - TUSHARE_TOKEN=${TUSHARE_TOKEN:-}
+      # Security
+      - JWT_SECRET=${JWT_SECRET:-}
+      # Database
+      - DATABASE_PATH=/app/data/fund_assistant.db
+    volumes:
+      - ./data:/app/data
+    networks:
+      - fund-network
+
+networks:
+  fund-network:
+    driver: bridge
