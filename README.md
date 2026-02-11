@@ -33,7 +33,40 @@
 
 ## 🧠 AI 专家团队架构
 
-本项目展示了 HelloAgents 框架的强大能力，集成了多种 Agent 模式：
+本项目展示了 HelloAgents 框架的强大能力，集成了多种 Agent 模式。
+
+### 系统架构图
+
+```mermaid
+graph TD
+    User([👤 用户]) <--> |WebSocket/HTTP| API_Gateway[FastAPI 网关]
+    
+    subgraph "🤖 AI Agent Team (HelloAgents Framework)"
+        API_Gateway --> Coordinator[👩‍💼 总协调员\n(ReActAgent)]
+        
+        Coordinator --> |任务分发| Strategist[🎩 首席策略师\n(CoT + Persona)]
+        Coordinator --> |任务分发| Analyst[📈 技术分析师\n(Reflection)]
+        Coordinator --> |任务分发| Quant[🧮 量化专家\n(Code Interpreter)]
+        Coordinator --> |任务分发| Intelligence[🕵️ 市场侦察兵\n(GraphRAG)]
+        Coordinator --> |任务分发| Advisor[📝 投资顾问\n(PlanAndSolve)]
+        Coordinator --> |任务分发| Shadow[👥 影子分析师\n(ReAct)]
+        Coordinator --> |任务分发| DailyReport[📅 日报专员\n(Simple)]
+    end
+    
+    subgraph "🧠 记忆与知识库"
+        VectorDB[(Qdrant 向量库)] <--> |RAG 检索| Intelligence
+        VectorDB <--> |研报查询| Analyst
+        SQLDB[(SQLite 业务库)] <--> |持仓数据| Coordinator
+    end
+    
+    subgraph "🔌 外部工具链"
+        Quant --> |Python 执行| CodeSandbox[代码沙箱]
+        Intelligence --> |搜索/新闻| WebSearch[联网搜索]
+        All_Agents --> |行情数据| MarketData[AkShare/TuShare]
+    end
+```
+
+### Agent 角色详情
 
 | 角色 | Agent 类型 | 核心能力 & 职责 |
 | :--- | :--- | :--- |
@@ -81,6 +114,24 @@
 *   **LLM 支持**: DeepSeek-V3, Qwen2.5, OpenAI GPT-4o (兼容所有 OpenAI 格式接口)
 *   **数据库**: SQLite (业务数据), Qdrant (向量数据)
 *   **工具链**: AkShare (金融数据), PyPDF2 (文档解析)
+
+### 📂 项目目录结构
+
+```bash
+fund_assistant/
+├── agents/                 # 🤖 Agent 角色定义 (ReAct/PlanAndSolve/etc)
+├── api/                    # 🔌 FastAPI 路由接口
+├── data/                   # 💾 本地数据库 (SQLite + Qdrant)
+├── frontend-pro/           # ⚛️ React 前端项目源码
+│   ├── src/components/     # UI 组件
+│   └── src/pages/          # 页面视图
+├── hello_agents/           # 🧠 HelloAgents 框架核心
+├── knowledge/              # 📚 RAG 知识库文件 (PDF/MD)
+├── services/               # ⚙️ 业务逻辑层
+├── tools/                  # 🛠️ 工具函数 (行情/代码解释器)
+├── server.py               # 🚀 后端启动入口
+└── docker-compose.yml      # 🐳 Docker 编排文件
+```
 
 ---
 
@@ -169,4 +220,4 @@ npm run dev
 
 ## 📄 开源协议
 
-MIT License. Copyright (c) 2024 ImagineHosting.
+MIT License. Copyright (c) 2026
